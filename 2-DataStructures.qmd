@@ -217,7 +217,11 @@ gayguides[1:3,]
 
 ```
 
+<<<<<<< HEAD
+>  work in progress.
+=======
 > 
+>>>>>>> upstream/main
 
 Another useful operator to know is `$` which we used a little bit in the previous worksheet. `$` is shorthand for accessing a variable in a dataframe. 
  
