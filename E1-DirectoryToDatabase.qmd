@@ -1,8 +1,8 @@
 ---
 title: "In-Class Exercise: Building a Database of Muncie Directories"
 subtitle: "From a printed source, to a table, to related tables"
-author: ""
-date: ""
+author: "Test Student DH"
+date: "September 27, 2026"
 format:
   html:
     df-print: paged
