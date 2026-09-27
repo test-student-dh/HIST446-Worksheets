@@ -61,7 +61,7 @@ paste("Hello", "Ball State Students")
 
 (@) Can you explain what happened in 2-3 sentences? 
 
-> 
+> test . this is a test of work in progress in the worksheet. 
 
 The last type are **logical** values like `TRUE` and `FALSE`. (Note that these are all caps.)
 

@@ -47,12 +47,11 @@ __MACOSX/
 *_files/
 *.quarto_ipynb
 
-# Rendered worksheets (students commit the .qmd, not the output)
-*.html
+# NHGIS extracts -- fetched per student via the IPUMS API (redistribution not permitted)
+/data/nhgis*.zip
 
 # Corpora that worksheets download at runtime -- these are NOT committed.
-# Note: the data/ folder IS committed; it holds the CSVs and NHGIS extracts
-# that worksheets 5, 6, 8, 9 and 10 read from disk.
+# Note: the data/ folder IS committed; it holds the CSVs that worksheets 5, 6, 8, 9 and 10 read from disk.
 /sotu_files/
 /txt/
 /TheAmericanCity/
@@ -60,8 +59,8 @@ __MACOSX/
 /AmCity.zip
 
 # ---------------------------------------------------------------------------
-# PROGRESSIVE RELEASE
-# Worksheets listed here stay on your machine and are NOT pushed to GitHub.
+# PROGRESSIVE RELEASE: Note to self
+# Worksheets listed here stay local and are not pushed to GitHub.
 # To release one, delete its line, then commit and push:
 #     git add 2-DataStructures.qmd
 #     git commit -m "Release worksheet 2"
@@ -69,7 +68,6 @@ __MACOSX/
 # Students get it in GitHub Desktop: Fetch origin, then
 # Branch -> Update from upstream/main, then Push origin.
 # ---------------------------------------------------------------------------
-3-Loops-Conditionals-Functions.qmd
 4-BasicDataManipulation.qmd
 5-AdvancedDataManipulation.qmd
 6-DataVisualization.qmd
