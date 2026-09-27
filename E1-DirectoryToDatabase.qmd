@@ -200,7 +200,7 @@ by_machine %>%
 
 (@) Compare the machine's rows for your six people with your hand transcription. Where does the machine disagree with you? Look especially at Calvin Davis, whose entry begins with an odd mark in the OCR text, and at Chas. S. Davis, whose entry runs over three lines.
 
->
+> test progress.
 
 (@) `count()` tallies rows. Run the code below.
 
@@ -211,12 +211,12 @@ by_machine %>% count(is.na(address))
 (@) What share of entries has no `address`? Use `filter(is.na(address))`).
 
 ```{r}
-
+machine_no_address <- by_machine %>% filter(is.na(address))
 ```
 
 (@) Pick two of the entries without addresses and try to explain why the parser failed.
 
->
+> test progress.
 
 ------------------------------------------------------------------------
 
@@ -295,19 +295,19 @@ residences %>%
 
 (@) Seven people "live" at `same`. Write down what you'd do with those rows in a real project: delete them, look up the business address from each entry, or something else? What would each choice do to a count of shared addresses?
 
->
+> test progress.
 
 (@) The same surname at the same address suggests a family, but the database only **records** a shared address. Pick one shared address from `shared`. What might the people there be to each other? What could you check (another page, another year of the directory, the census) to find out? What does the `housing` column (`res` vs. `rooms` vs. `bds`) add?
 
->
+> test progress.
 
 (@) Freedom on the Move stores names in their own table (`enslaved_person_name`), with a column `is_alias`, because one person can appear under several names. Our `people` table has one name per person, and wives appear only inside parentheses. Sketch (in words) one more table you'd add to our database to fix one of these problems. What would one row be, and what would its columns be?
 
->
+> test progress.
 
 (@) Our `asterisk` column comes from a racial classification the publisher printed next to some names. A database makes a column like that very easy to count, map, and join. Name one question a historian could responsibly ask with it, and one way it could be misused.
 
->
+> test progress.
 
 ------------------------------------------------------------------------
 
