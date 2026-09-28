@@ -64,8 +64,8 @@ ggplot(all_by_month, aes(x = month, y = n, color = reason)) +
 # almost disappears. What changed: the people, or the paperwork? What would a
 # reader who saw only the graph in section 1 conclude?
 
-dir.create("output", showWarnings = FALSE)
-ggsave("output/bellevue_admissions_by_month.png", width = 8, height = 5)
+dir.create("output/exercise2/", showWarnings = FALSE)
+ggsave("output/exercise2/bellevue_admissions_by_month.png", width = 8, height = 5)
 
 
 #### 3. Your turn: pick at least two ####
@@ -106,3 +106,5 @@ bellevue %>%
   slice_max(n, n = 12) %>%
   ggplot(aes(x = n, y = reorder(occupation, n), fill = gender)) +
   geom_col()
+
+# (f) Choose one of the above visualizations to save to your new output/exercise2/ directory. Commit, then push to GitHub.
