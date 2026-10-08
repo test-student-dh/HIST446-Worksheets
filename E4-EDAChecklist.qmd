@@ -1,8 +1,8 @@
 ---
 title: "In-Class Exercise 4: An Exploratory Data Analysis Checklist"
 subtitle: "Roger Peng's checklist, applied to Freedom on the Move"
-author: ""
-date: ""
+author: "Test Student"
+date: "October 7, 2026"
 format:
   html:
     theme: cosmo
@@ -67,7 +67,7 @@ FOTM can't answer that directly: it holds *advertisements*, not escapes.
 
 (@) Write your own sharp question about FOTM's advertisements: one that names exactly what you'd count or measure, and for what unit (an ad, a newspaper, a state, a decade...).
 
->
+> how many ads were placed by jailers, compared with enslavers, in each decade from 1800 to 1860?
 
 Save your question for a possible future investigation. For the purpose of learning Peng's checklist, we'll pursue a question this database can actually answer:
 
@@ -128,13 +128,17 @@ ads_place %>%
 (@) What did the `distinct()` function do in the chunk above?
 Hint: take a peak at the documentation for the function with `?distinct`.
 
->
+> `distinct(newspaper, city, state)` keeps one row for each unique combination of title, city, and state and drops the duplicates. It returns only those three columns. Piping the result into `nrow()` counts the combinations: 261 different newspapers, by title and place.
 
 (@) The `newspaper` table has 41,551 rows, but notice many different newspapers (unique pair of title + place) there are. So what is the **unit of analysis** in the `newspaper` table? In other words, what is one row? 
 
+> 41,551 rows describe only 261 newspapers (title + place) used by the ads. The intended unit of analysis is technically one newspaper title in its place of publication. 
 >
+> But in most cases, FOTM created a new newspaper record with its own location record for every advertisement transcribed into the database. 41,303 newspaper IDs are used by exactly one ad. The Daily National Intelligencer has 24,311 rows, one for each of its 24,311 ads. A few titles reuse one record across thousands of advertisements.
+>
+> Ultimately, the table's ID does not define its unit of analysis. What the rows describe does. To count newspapers, we must group by title and place instead of counting rows of `newspaers` alone.
 
-(@) Then find a title that appears in two places: did the paper move, are these two different papers, or is it an error? 
+(@) Then find a title that appears in two places: did the paper move, are these two different papers, or is it an error?
 
 ::: {.callout-tip}
 ## Tip:
@@ -144,10 +148,10 @@ To answer the question, you need two things for each title: **where** it was pub
 
 ```r
    ads_place %>%
-     group_by(______) %>%
+     group_by(newspaper, city, state) %>%
      summarize(ads   = n(),
-               first = min(________),
-               last  = max(________),
+               first = min(publication_date),
+               last  = max(publication_date),
                .groups = "drop")
 ```
 2. **Count places per title.** Pipe that into `add_count(_______)` so that each row shows how many places its title appears in.
@@ -163,11 +167,28 @@ To answer the question, you need two things for each title: **where** it was pub
 
 
 ```{r}
-
+ ads_place %>%
+  group_by(newspaper, city, state) %>%
+  summarize(ads   = n(),
+            first = min(publication_date),
+            last  = max(publication_date),
+            .groups = "drop") %>% 
+  add_count(newspaper) %>% 
+  filter(n > 1)
 ```
 Write your findings here:
 
-> 
+> Seven titles appear in two places (14 rows):
+>
+> - *Daily National Intelligencer:* Washington, NY (1) and Wasshington, DC (24,310). Possibly a data error, as one ad was placed in New York.
+> - *Daily Southern Citizen:* Edenton (1) and Greensboro (6), both 25 June 1864. Likely an error, since the same issue (published on the same date) was given two different locations.
+> - *Weekly Courier:* Similarly, probably an error: same dates in 1860, two different locations.
+> - *State Gazette of North Carolina:* The date ranges for the different locations follow one another, which suggests the title possibly moved.
+> - *People's Press:* The two records are 15 years apart, so it is likely that these are two different newspapers.
+> - *North Carolina. Journal:* The range of publication date overlaps for both locations. So these are either two different newspapers or the same newspaper was published in different places at different moments.
+> - *Newbern Spectator:* One single ad in Raleigh in 1865, possibly an error.
+>
+> These readings come from the data alone. We would need to crossreference with outside sources to check whether these explanations are sound.
 
 ------------------------------------------------------------------------
 
@@ -186,7 +207,8 @@ ads_place <- ads_place %>%
   mutate(date = as.Date(publication_date),
          year = year(date))
 
-sum(is.na(ads_place$date))   # how many dates failed to convert?
+sum(is.na(ads_place$date))   
+# how many dates failed to convert?
 ```
 
 ------------------------------------------------------------------------
@@ -211,7 +233,10 @@ ads_place %>%
 
 (@) Discuss with your pair or group: what are the earliest and latest dates? Which one surprises you, and why?
 
+> Earliest: 26 June 1704, *The Boston News-Letter* (Boston, MA). 
+> Latest: 25 April 1894, *Weekly Raleigh Register* (Raleigh, NC).
 >
+> The latest date stands out: it is 30 years after slavery ended. All the last rows (all North Carolina) are also after the end of the Civil War in 1865.
 
 ------------------------------------------------------------------------
 
@@ -242,7 +267,11 @@ ads_place %>%
 
 (@) What share of the ads have a transcription? Which decades have the most untranscribed ads? Without the color, what would a reader conclude from the height of the 1810s and 1820s bars?
 
+> Only 27,131 of 89,601 ads (about 30%) have a transcription; 62,470 don't.
 >
+> The most untranscribed ads are in the 1820s, the 1810s, and the 1800s.
+>
+> Without the color, a reader would conclude that runaway advertising (or escape itself) peaked in the 1810s–1820s. In fact the spike mostly reflects FOTM having catalogued a long run of one newspaper, the *Daily National Intelligencer* (1813–1831), whose ads are mostly not yet transcribed. The bars show the archive's composition instead of pointing to a real historical trend.
 
 ------------------------------------------------------------------------
 
@@ -271,7 +300,17 @@ after_1865 %>% pull(transcription) %>% cat(sep = "\n\n----------\n\n")
 
 (@) Does the earliest ad agree with the first landmark? For the ads after 1865: who is running away, from whom, and who "bound" them? What do these ads tell you about the end of slavery, and why might FOTM's editors have included them? Is any of them probably a data-entry error?
 
+> Yes, the earliest ad is from June 26, 1704, two months after *The Boston News-Letter* began publishing (24 April 1704).
 >
+> There are 15 ads recorded after 1865, all from North Carolina. Twelve are from the *Greensborough Patriot* (1866–1868), two from the *Weekly Pioneer* (Asheville, 1872 and 1874), and one from the *Weekly Raleigh Register* (1894).
+>
+> Most of the *Patriot* ads concern Black children and teenagers. They were "bound" or "indentured" to white employers by the Guilford County Court or by the Freedmen's Bureau's Assistant Superintendent. The rewards are one, five, or ten cents: the point was to warn others not to "harbor or employ" them, not to recover their value.
+> These ads suggest that coerced labor continued after Emancipation through the apprenticeship ("binding out") of Black children, which North Carolina and other Southern states used after 1865. Emancipation was not a clean break in the sources. FOTM editors might have decided to include these ads because they belong to the same advertising genre as other common ads. They start with "Ranaway," included a reward, a description, and a warning not to harbor. One transcription includes a volunteer's note, "Not an enslaved person. All entries will be left blank so as not to be mistaken in the system." So the editors kept the ad but declined to mark the person up as enslaved.
+>
+> On the other hand, a few ads seem to be outliers. An ad from 1872 listed a sheriff's $25 reward for capturing a man named Andrew Rucker (law enforcement, not slavery). Similarly, an 1874 ad searched for two white boys, one a bound apprentice.
+>
+> **Data-entry error:** the "1894" ad describes an escape in July 1847 and is signed "April 16, 1849." Its publication date was entered wrongly, which speaks to the challenges of crowdsourcing for data entry and transcription.
+
 
 ------------------------------------------------------------------------
 
@@ -295,7 +334,10 @@ ggplot(ads_by_state, aes(x = ads, y = reorder(state, ads))) +
 
 (@) Which state comes first? Does that match what you know about where slavery was concentrated in the United States?
 
+> The District of Columbia, with 26,929 ads, ahead of South Carolina (13,930), Virginia (12,231), and Louisiana (11,790).
 >
+> It does not match where slavery was concentrated. In 1860, for example, D.C. had about 3,200 enslaved people, while Virginia, Georgia, Mississippi, Alabama, and South Carolina each had more than 400,000.
+
 
 ------------------------------------------------------------------------
 
@@ -327,7 +369,9 @@ ads_place %>%
 
 (@) How much of the top state's lead comes from one newspaper? How many of that paper's ads have been transcribed? Which state comes first when you count only transcribed ads?
 
+> The *Daily National Intelligencer* accounts for 24,310 of DC's 26,929 ads (about 90%). Only 168 of them were transcribed. The *Washington DC National Intelligencer*, with 2,619 ads and 1,908 transcribed, is very likely the same paper under a second name in the database.
 >
+> When counting only transcribed ads, Louisiana comes first (8,041, mostly from *The Daily Picayune*), then North Carolina (5,186) and South Carolina (3,414). DC drops to sixth place (2,076, tied with Alabama).The ranking depends on what you count, and the "easy" answer mostly measured one newspaper's untranscribed ads.
 
 ### Challenge 3: Compare with the enslaved population
 
@@ -363,11 +407,16 @@ census_1860 %>%
 
 (@) Which states have the most ads per 1,000 enslaved people, and which have none at all? What does that suggest about how FOTM chose (or was able to find) its newspapers?
 
->
+> The District of Columbia had the most ads per 1,000 enslaved people (about 8,455), far ahead of Maryland (85), Louisiana (35.5), and South Carolina (34.6).
+> 
+> Arkansas, Mississippi, and Missouri had none at all. Kentucky has nearly none (22 ads). Mississippi had 436,631 enslaved people in 1860 and has no ads in FOTM.
+> 
+> This suggests that the counts reflect which newspapers FOTM could find, digitize, and catalogue (surviving runs, partner collections, transcription progress), not where enslaved people lived or escaped. A state's absence from FOTM is a gap in the archive, not necessarily in history.
 
 (@) Last challenge, from Exercise 3: the George, Celia, and Sarah ad ran 20 times in the *Charleston Mercury*, and each printing is a separate row in `ads`. How would reprints affect the counts above? How might you find them? (You don't need to write the code.)
 
->
+> Reprints inflate the counts. One escape advertised 20 times becomes 20 rows. Papers and states with long runs of reprinted ads, or more complete digitized runs, look bigger.
+> To find reprints, searching for a match on newspaper + advertiser + the opening words of the text or comparing the people and dates in the escape records are possible paths.
 
 ------------------------------------------------------------------------
 
@@ -377,11 +426,14 @@ census_1860 %>%
 
 (@) Answer Peng's three questions for our question ("In which states were the advertisements in FOTM published?"). Then return to the broad question we set aside in step 1, "Where did people escape from slavery?" What would you need to answer it, and what can FOTM honestly tell you about it?
 
->
+> **Right data?** Only partly. FOTM tells us where the ads included in the database were published. The counts mostly measure FOTM's coverage: which newspapers were digitized and which ads have been transcribed. One DC paper dominates.
+> **Other data needed?** A directory of newspapers that existed (e.g., the Library of Congress's Chronicling America directory), could help confirming what's missing. The census can offer a cross-reference point for the enslaved population. Information on FOTM's digitization partners and transcription progress would put the database structure in context.
+> **Right question?** A better one: "How does FOTM's coverage of transcribed, de-duplicated ads vary by state and decade?"
+> **Where did people escape from slavery?** To answer this question, we need records of *escapes*, not ads. Within FOTM, that means the escape events and the places marked "ran from" in `runaway_location`, but only for the ads volunteers have tagged, with reprints removed. Other sources would help too: jail registers, court records, Underground Railroad records, the accounts of people who escaped, etc.
 
 (@) Rewrite the question you wrote in step 1, using what you learned in this checklist.
 
->
+> "Among the transcribed and tagged ads in FOTM, de-duplicated for reprints, how did the share of ads placed by jailers change between 1800 and 1860, and in which newspapers?"
 
 ------------------------------------------------------------------------
 
