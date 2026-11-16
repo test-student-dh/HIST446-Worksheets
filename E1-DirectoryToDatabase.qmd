@@ -1,8 +1,8 @@
 ---
 title: "In-Class Exercise: Building a Database of Muncie Directories"
 subtitle: "From a printed source, to a table, to related tables"
-author: "Test Student DH"
-date: "September 27, 2026"
+author: ""
+date: ""
 format:
   html:
     df-print: paged
@@ -58,13 +58,13 @@ cat(page_206$text)                                       # cat() prints the text
 
 Now look at the **scan** of the same page available online by clicking on this URL: [Page 206 in the Digital Media Repository](https://dmr.bsu.edu/digital/collection/MunCityDirs/id/10723) (printed "202" at the top). The number at the end of that link, `10723`, is the page's `pageptr`: the repository's own ID for this one page, the same number in the `pageptr` column of `pages`. Every page of every digitized volume has one.
 
-(@) Compare the scan with the text above. Name **three** things a reader of the scan knows that the OCR text gets wrong or loses.
+1. Compare the scan with the text above. Name **three** things a reader of the scan knows that the OCR text gets wrong or loses.
 
-> test progress.
+>
 
-(@) Find the page in this city directory volume that explains the directory's abbreviations (the table of contents on Page 7 tells you where). What does an asterisk before a name mean?
+2. Find the page in this city directory volume that explains the directory's abbreviations (the table of contents on Page 7 tells you where). What does an asterisk before a name mean?
 
-> test progress.
+>
 
 ### Where did the sample table you loaded with `read_csv()` come from?
 
@@ -82,17 +82,17 @@ if (is.null(live)) {
 }
 ```
 
-(@) Notice the object that was fetched from the JSON request `live`. It's a list 66 elements. Go back to the scan of Page 206 at the DMR website. Can you figure out what those 66 elements refer to?
+3. Notice the object that was fetched from the JSON request `live`. It's a list 66 elements. Go back to the scan of Page 206 at the DMR website. Can you figure out what those 66 elements refer to?
 
-> test progress.
+>
 
 The repository answered with a whole record for this one page. In a future worksheet, you'll write a loop that does this for many pages, politely. By the end of this code, we saved just one field, `full`, as `live_text`. 
 
-(@) Which three of the 66 fields became the three columns in `pages`?
+4. Which three of the 66 fields became the three columns in `pages`?
 
-> test progress.
+>
 
-(@) Run the code chunk below to create a one-row table from the `live` object that has the same columns as the `pages` table and the values for page 206.
+5. Run the code chunk below to create a one-row table from the `live` object that has the same columns as the `pages` table and the values for page 206.
 ```{r}
 if (!is.null(live)) {
   live_206 <- tibble(
@@ -105,9 +105,9 @@ if (!is.null(live)) {
 identical(live_206, as_tibble(page_206)) # check to see if both are identitical
 ```
 
-(@) Explain each line in the code above. Remember: You can type `?function()` in your console to access the documentation for any of the functions used above. For example, write `?trimws` and see what happens.
+6. Explain each line in the code above. Remember: You can type `?function()` in your console to access the documentation for any of the functions used above. For example, write `?trimws` and see what happens.
 
-> test progress.
+> 
 
 ------------------------------------------------------------------------
 
@@ -133,17 +133,17 @@ A few rules I followed, all from our readings on spreadsheets and databases:
 - `housing` records the directory's own abbreviation: `res` (residence), `rooms`, or `bds` (boards). So I'm keeping these abbreviations as data points.
 - `notes` is where doubts, observations, and detailed information for future reference go.
 
-(@) Add **Calvin Davis** (the entry just above Carl) and **the five people listed after Carl** on page 206 to `by_hand`, reading from the **scan**, not the OCR. Copy the pattern above separating columns with commas. Run the chunk to check it works. 
+7. Add **Calvin Davis** (the entry just above Carl) and **the five people listed after Carl** on page 206 to `by_hand`, reading from the **scan**, not the OCR. Copy the pattern above separating columns with commas. Run the chunk to check it works. 
 
 Notice: if you look closely, the mark before Calvin Davis's name is clear in the scan, but not as clear in the OCR text.
 
 ```{r}
-by_hand <- by_hand %>% add_row(entry=4, surname="Test",  given="Student DH.", spouse="NA", asterisk=FALSE,     occupation="student", employer="Ball State University", address="2000 McKinley Avenue", housing="res",    notes="No notes.")
+
 ```
 
-(@) Your table has no row for Naomi, Pauline, or Anna, the wives in parentheses, and no column for a second job (look a few lines further down at Chas. S. Davis). What did the directory's publisher decide about women in these households? What could you do differently when building this table?
+8. Your table has no row for Naomi, Pauline, or Anna, the wives in parentheses, and no column for a second job (look a few lines further down at Chas. S. Davis). What did the directory's publisher decide about women in these households? What could you do differently when building this table?
 
-> test progress.
+>
 
 ------------------------------------------------------------------------
 
@@ -198,25 +198,25 @@ by_machine %>%
   head(12)
 ```
 
-(@) Compare the machine's rows for your six people with your hand transcription. Where does the machine disagree with you? Look especially at Calvin Davis, whose entry begins with an odd mark in the OCR text, and at Chas. S. Davis, whose entry runs over three lines.
+9. Compare the machine's rows for your six people with your hand transcription. Where does the machine disagree with you? Look especially at Calvin Davis, whose entry begins with an odd mark in the OCR text, and at Chas. S. Davis, whose entry runs over three lines.
 
-> test progress.
+>
 
-(@) `count()` tallies rows. Run the code below.
+10. `count()` tallies rows. Run the code below.
 
 ```{r}
 by_machine %>% count(is.na(address))
 ```
 
-(@) What share of entries has no `address`? Use `filter(is.na(address))`).
+11. What share of entries has no `address`? Use `filter(is.na(address))`).
 
 ```{r}
-machine_no_address <- by_machine %>% filter(is.na(address))
+
 ```
 
-(@) Pick two of the entries without addresses and try to explain why the parser failed.
+12. Pick two of the entries without addresses and try to explain why the parser failed.
 
-> test progress.
+>
 
 ------------------------------------------------------------------------
 
@@ -293,21 +293,21 @@ residences %>%
   select(surname, given, occupation, housing, address)
 ```
 
-(@) Seven people "live" at `same`. Write down what you'd do with those rows in a real project: delete them, look up the business address from each entry, or something else? What would each choice do to a count of shared addresses?
+13. Seven people "live" at `same`. Write down what you'd do with those rows in a real project: delete them, look up the business address from each entry, or something else? What would each choice do to a count of shared addresses?
 
-> test progress.
+>
 
-(@) The same surname at the same address suggests a family, but the database only **records** a shared address. Pick one shared address from `shared`. What might the people there be to each other? What could you check (another page, another year of the directory, the census) to find out? What does the `housing` column (`res` vs. `rooms` vs. `bds`) add?
+14. The same surname at the same address suggests a family, but the database only **records** a shared address. Pick one shared address from `shared`. What might the people there be to each other? What could you check (another page, another year of the directory, the census) to find out? What does the `housing` column (`res` vs. `rooms` vs. `bds`) add?
 
-> test progress.
+>
 
-(@) Freedom on the Move stores names in their own table (`enslaved_person_name`), with a column `is_alias`, because one person can appear under several names. Our `people` table has one name per person, and wives appear only inside parentheses. Sketch (in words) one more table you'd add to our database to fix one of these problems. What would one row be, and what would its columns be?
+15. Freedom on the Move stores names in their own table (`enslaved_person_name`), with a column `is_alias`, because one person can appear under several names. Our `people` table has one name per person, and wives appear only inside parentheses. Sketch (in words) one more table you'd add to our database to fix one of these problems. What would one row be, and what would its columns be?
 
-> test progress.
+>
 
-(@) Our `asterisk` column comes from a racial classification the publisher printed next to some names. A database makes a column like that very easy to count, map, and join. Name one question a historian could responsibly ask with it, and one way it could be misused.
+16. Our `asterisk` column comes from a racial classification the publisher printed next to some names. A database makes a column like that very easy to count, map, and join. Name one question a historian could responsibly ask with it, and one way it could be misused.
 
-> test progress.
+>
 
 ------------------------------------------------------------------------
 

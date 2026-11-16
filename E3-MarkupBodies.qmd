@@ -18,7 +18,7 @@ format:
 ::: {.callout-note}
 ## What are these exercises?
 
-Last week, you turned a printed page of _Muncie's 1925 city directory_ into tables and then created a relational model with them.This week, you explored ggplot in R to visualize the _Bellevue Almshouse_ data. Today, you will work with the _Freedom On The Move database_ and use OpenRefine to make decisions about the data.
+Last week, you turned a printed page of _Muncie's 1925 city directory_ into tables and then created a relational model with them. This week, you explored ggplot in R to visualize the _Bellevue Almshouse_ data. Today, you will work with the _Freedom On The Move database_ and use OpenRefine to make decisions about the data.
 
 This new set of exercises are counting toward your coding worksheets grade. As before, you are not being graded on how much coding you have mastered, but rather on **your documented efforts to understand the concepts, workflows, and operations in each exercise.** Learning logs are the best way to document your learning progress, your challenges, and your own effort to troubleshoot issues. You should submit them consistently.
 
@@ -34,12 +34,11 @@ Jessica Marie Johnson's [article "Markup Bodies" (2018)](https://doi.org/10.1215
 
 1. load FOTM's tables in R and check what the database actually records, and how often;
 2. clean the kinship labels in OpenRefine, deciding what each label means by reading the ads;
-3. take apart the `racial_description` field in OpenRefine and decide what it means to "clean" it;
-4. compare the database's markup and crowd-source-based categories with the words in the ads.
+3. compare the database's markup and crowd-source-based categories with the words in the ads.
 
 **Your Tools:**
 
-- In OpenRefine: `facets`, `clustering`, the `Undo/Redo` history).
+- In OpenRefine: `facets`, `clustering`, the `Undo/Redo` history.
 - In R: `problems()`, `pivot_longer()`, and `left_join()`.
 :::
 
@@ -53,7 +52,7 @@ These ads describe people in the language of those who enslaved them. That langu
 
 Last week I asked you to download a copy of the FOTM tables to your computer. If you did not do this last week, you can [follow this link and click "Full Database Download"](https://database.freedomonthemove.org/downloads). Make sure to place those tables you downloaded in `data/FOTM/` inside your Worksheets folder. Don't make any edits to the original files.
 
-This folder is listed in `.gitignore`, so your GitHub will not see the added files and **it is never pushed to GitHub**. Only your code and the small tables you make today in `output/exercise2/` are going to be committed and pushed.
+This folder is listed in `.gitignore`, so your GitHub will not see the added files and **it is never pushed to GitHub**. Only your code and the small tables you make today in `output/exercise3/` are going to be committed and pushed.
 
 Check that R can find the files:
 
@@ -148,11 +147,11 @@ with_ads <- function(some_runaways) {
   }
 ```
 
-(@) Open the `events` and the `ads` tables and identify which columns were used in the code above. To the best of your ability, describe what is happening in the code and how it used specific columns from those tables.
+1. Open the `events` and the `ads` tables and identify which columns were used in the code above. To the best of your ability, describe what is happening in the code and how it used specific columns from those tables.
 
 > 
 
-(@) Now give the new function a test. Write a code below that: 1) filters the `runaways` table to only runaways who have ran before; and 2) joins the filtered subset to their respective advertisement transcriptions.
+2. Now give the new function a test. Write a code below that: 1) filters the `runaways` table to only runaways who have ran before; and 2) joins the filtered subset to their respective advertisement transcriptions.
 
 ::: {.callout-tip}
 ## Tip:
@@ -192,7 +191,7 @@ enslaved_people %>% count(literacy, sort = TRUE)
 
 FOTM has several ways of saying "nothing here": an empty cell (`NA` in R), `{undefined value}`, `NOT_PROVIDED`, and, in number fields, `-9`. All of these mean "blank cell", but for different scenarios.
 
-(@) Discuss with your pair or group and answer: what might be the difference between `NOT_PROVIDED` and `{undefined value}`? Why does it matter which one a cell has?
+3. Discuss with your pair or group and answer: what might be the difference between `NOT_PROVIDED` and `{undefined value}`? Why does it matter which one a cell has?
 
 >
 
@@ -247,11 +246,11 @@ enslaved_people %>%
     ) %>% fill_rates()
 ```
 
-(@) Discuss with your pair or group and answer: Which fields are nearly always filled, and which are nearly always empty? Do you see any similarities between the fields that are most commonly filled? What patterns do you see?
+4. Discuss with your pair or group and answer: Which fields are nearly always filled, and which are nearly always empty? Do you see any similarities between the fields that are most commonly filled? What patterns do you see?
 
 >
 
-(@) Is that pattern a fact about the people who ran away, about the enslavers who wrote the ads, or about the volunteers who marked up the ads? Could it be all three? Think of Johnson's article in your answer.
+5. Is that pattern a fact about the people who ran away, about the enslavers who wrote the ads, or about the volunteers who marked up the ads? Could it be all three? Think of Johnson's article in your answer.
 
 >
 
@@ -261,7 +260,7 @@ enslaved_people %>%
 
 The `relationships` table is small (102 rows), so it's a good place to experiment with OpenRefine. Each row links two runaways, "left" and "right," and says what each one was to the other (`Mother` and `Son`, say).
 
-::: {callout-note}
+::: {.callout-note}
 ## Load the table in OpenRefine
 
 1) Open OpenRefine. It opens a tab in your browser.
@@ -282,11 +281,11 @@ The `relationships` table is small (102 rows), so it's a good place to experimen
 A facet lists every distinct value in a column and how many rows have it.
 Click the ▼ on `RUNAWAY_RELATIONSHIP LEFT_KINSHIP` → **Facet** → **Text facet**. Do the same for `RIGHT_KINSHIP`.  Click **count** in the facet box to sort by frequency.
 
-(@) How many choices does each facet list in total?
+6. How many choices does each facet list in total?
 
 >
 
-(@) Some of the "choices" look identical. Click one of the identical-looking pairs: what is actually different about them?
+7. Some of the "choices" look identical. Click one of the identical-looking pairs: what is actually different about them?
 
 >
 
@@ -295,11 +294,11 @@ Click the ▼ on `RUNAWAY_RELATIONSHIP LEFT_KINSHIP` → **Facet** → **Text fa
 
 The following fixes don't change meaning or interpretation, so we'll do these first. In OpenRefine, follow these steps twice, once for each of the kinship columns:
 
-- Drowdpwn (▼) → **Edit cells** → **Common transforms** → **Trim leading and trailing whitespace**.
+- Dropdown (▼) → **Edit cells** → **Common transforms** → **Trim leading and trailing whitespace**.
 
 - In the facet box, click **Cluster**. Keep "key collision" and "fingerprint." OpenRefine groups values that differ only in capitalization, spacing, or punctuation. Check **Merge?** for each cluster, choose the **New Cell Value** you want to keep (for example `Mother`, not `mother`), then **Merge selected & close**.
 
-(@) How many choices does each facet list now?
+8. How many choices does each facet list now?
 
 >
 
@@ -318,27 +317,27 @@ hard_cases <- relationships %>%
 hard_cases %>% select(left_kinship, right_kinship, publication_date)
 ```
 
-(@) Read the ad behind `slave` / `former slave owner`:
+9. Read the ad behind `slave` / `former slave owner`:
 ```{r}
 hard_cases %>% filter(left_kinship == "slave") %>% pull(transcription) %>% cat(sep = "\n")
 ```
 
-(@) Discuss with your pair or group: Who is John Halsey, and why is he in a table of *runaways* and a table of *kinship*? What does this data point tell you about the difference between the database's categories and the historical relationship?
+10. Discuss with your pair or group: Who is John Halsey, and why is he in a table of *runaways* and a table of *kinship*? What does this data point tell you about the difference between the database's categories and the historical relationship?
 
 >
 
-(@) Now let's print all the ads from hard_cases to examine the other five rows:
+11. Now let's print all the ads from hard_cases to examine the other five rows:
 ```{r}
 hard_cases %>% pull(transcription) %>% cat(sep = "\n\n----------\n\n")
 ```
 
-(@) All the other five rows come from the **same ad**, printed on different days and transcribed separately. What does the ad actually say about how George, Celia, and Sarah are related? What did each volunteer's markup add to, or take away from, what the ad says?
+12. All the other five rows come from the **same ad**, printed on different days and transcribed separately. What does the ad actually say about how George, Celia, and Sarah are related? What did each volunteer's markup add to, or take away from, what the ad says?
 
 >
 
 This advertisement was printed many times. Let's generate a subset table with all of the reprints of the advertisement. The subset's unit of analysis should be one row per person per printing.
 
-(@) Find every printing of the ad by its text.
+13. Find every printing of the ad by its text.
 ```{r}
 family_ads <- ads %>%
   filter(str_detect(transcription, "GEORGE, CELIA")) %>%
@@ -347,7 +346,7 @@ family_ads <- ads %>%
 nrow(family_ads) # 20 printings
 ```
 
-(@) Each ad has one escape event.
+14. Each ad has one escape event.
 ```{r}
 family_events <- family_ads %>%
   left_join(events %>% select(runaway_event_id = id, advertisement_id, escapee_count),
@@ -356,7 +355,7 @@ family_events <- family_ads %>%
 nrow(family_events) # still 20
 ```
 
-(@) Each event has one row per runaway the volunteer recorded.
+15. Each event has one row per runaway the volunteer recorded.
 ```{r}
 family_runaways <- family_events %>%
   left_join(runaways %>% select(runaway_id = id, runaway_event_id, enslaved_person_id, racial_description),
@@ -365,7 +364,7 @@ family_runaways <- family_events %>%
 nrow(family_runaways) # 53: about three people per printing, but not exactly.
 ```
 
-(@) Bring in gender and name for each person.
+16. Bring in gender and name for each person.
 ```{r}
 family_people <- family_runaways %>%
   left_join(enslaved_people %>% select(enslaved_person_id = id, gender),
@@ -380,7 +379,7 @@ family_people %>%
 
 Now let's summarize our findings:
 
-(@) How many people did each printed advertisement record?
+17. How many people did each printed advertisement record?
 ```{r}
 family_people %>%
   group_by(publication_date) %>%
@@ -389,7 +388,7 @@ family_people %>%
  # because count() would include rows with NA values.
 ```
 
-(@) Which printings recorded kinship?
+18. Which printings recorded kinship?
 ```{r}
 relationships %>%
   filter(left_runaway_id %in% family_people$runaway_id) %>%
@@ -404,7 +403,7 @@ An eye-opening finding: Only 4 of the 20 printings about George, Celia, and Sara
 
 Now make your decisions in OpenRefine. To change a value, hover over it in the facet box, click **edit**, type the new value, and **Apply**. You don't have to change anything: keeping a label as the volunteer wrote it is also a decision.
 
-(@) Record every change you made in OpenRefine (including the easy ones) and every hard label you decided **not** to change, one row each, with your reason:
+19. Record every change you made in OpenRefine (including the easy ones) and every hard label you decided **not** to change, one row each, with your reason:
 
 ```{r}
 my_kinship_decisions <- tribble(
@@ -418,15 +417,15 @@ my_kinship_decisions
 
 ### 3e. Save your work: the data and the edits history
 
-1. **The cleaned table.** In OpenRefine, choose **Export** (top right) → **Comma-separated value**. Your browser downloads a file. Move it into `output/exercise2/` and rename it `relationships_clean.csv`.
+1. **The cleaned table.** In OpenRefine, choose **Export** (top right) → **Comma-separated value**. Your browser downloads a file. Move it into `output/exercise3/` and rename it `relationships_clean.csv`.
 
-2. **The edits history.** In OpenRefine, open the **Undo / Redo** tab (top left) → **Extract...**. Leave every step checked and copy the JSON text on the right. In RStudio: **File** → **New File** → **Text File**, paste, and save it as `output/exercise2/kinship-manipulation.json`.
+2. **The edits history.** In OpenRefine, open the **Undo / Redo** tab (top left) → **Extract...**. Leave every step checked and copy the JSON text on the right. In RStudio: **File** → **New File** → **Text File**, paste, and save it as `output/exercise3/kinship-manipulation.json`.
 
 That JSON is a complete, re-runnable record of every change you made. Anyone can load the original file into OpenRefine, click **Apply...** in the Undo/Redo tab, paste your JSON, and get your exact result. It's the OpenRefine version of a script.
 
 ```{r}
 #| eval: false
-relationships_clean <- read_csv("output/exercise2/relationships_clean.csv", show_col_types = FALSE) %>%
+relationships_clean <- read_csv("output/exercise3/relationships_clean.csv", show_col_types = FALSE) %>%
   rename_with(~ .x %>% str_remove("^\\S+ ") %>% str_to_lower())
 
 relationships_clean %>% count(left_kinship, sort = TRUE)
@@ -439,7 +438,7 @@ nrow(relationships_clean)   # should still be 102
 
 The `racial_description` field mixes two kinds of words. Some were written by the enslaver in the 1800s. Others were written by a volunteer in the 2010s–2020s summarizing what the ad said. Let's check the database's markup against the ads themselves.
 
-:::{callout-tip}
+::: {.callout-tip}
 ## Fun Fact
 The `separate_longer_delim()` function below does the same thing that **Split multi-valued cells** does in OpenRefine. It splits cells that have multiple values into different columns.
 :::
@@ -466,7 +465,7 @@ passing %>% count(ad_says_pass)
 passing %>% filter(ad_says_pass) %>% slice(1:3) %>% pull(transcription) %>% cat(sep = "\n\n----------\n\n")
 ```
 
-(@) What words do the ads use where the database says `white passing`? Now read two ads where `ad_says_pass` is `FALSE` (change the code above). Why do you think the volunteer tagged them `white passing`?
+20. What words do the ads use where the database says `white passing`? Now read two ads where `ad_says_pass` is `FALSE` (change the code above). Why do you think the volunteer tagged them `white passing`?
 
 >
 
@@ -488,15 +487,15 @@ tagged_negro %>%
   cat(sep = "\n\n----------\n\n")
 ```
 
-(@) In the ads where the word doesn't appear, what did the enslaver write instead, and what did the volunteer infer? (Run the chunk again with a different `set.seed()` number to read two more.) What's the difference between a field that records *what the ad says* and a field that records *what the ad implies*?
+21. In the ads where the word doesn't appear, what did the enslaver write instead, and what did the volunteer infer? (Run the chunk again with a different `set.seed()` number to read two more.) What's the difference between a field that records *what the ad says* and a field that records *what the ad implies*?
 
 >
 
 ------------------------------------------------------------------------
 
-## Part 6: Individual Reflection
+## Part 5: Individual Reflection
 
-(@) In one paragraph (about 250 words), answer: after cleaning two FOTM fields yourself, what do you think Johnson means by "markup bodies"? Refer to at least one decision you made in OpenRefine and one thing you found in Part 5.
+22. In one paragraph (about 250 words), answer: after cleaning FOTM's kinship labels and checking its racial descriptions against the ads, what do you think Johnson means by "markup bodies"? Refer to at least one decision you made in OpenRefine and one thing you found in Part 4.
 
 >
 
@@ -504,16 +503,15 @@ tagged_negro %>%
 
 ## Save, Render, Commit, Push
 
-Save the tables you made. They're small and made from FOTM by you, so they go in `output/exercise2/` and get committed, with the source credited below. FOTM's own files stay in `data/FOTM/` and are never pushed.
+Save the tables you made. They're small and made from FOTM by you, so they go in `output/exercise3/` and get committed, with the source credited below. FOTM's own files stay in `data/FOTM/` and are never pushed.
 
 ```{r}
-write_csv(my_kinship_decisions, "output/exercise2/kinship_decisions.csv")
-write_csv(my_term_decisions,    "output/exercise2/racial_description_decisions.csv")
+write_csv(my_kinship_decisions, "output/exercise3/kinship_decisions.csv")
 ```
 
-Before you commit, click on Render to create a new .html file of this exercise. Then, look at the **Changes** list in GitHub Desktop. You should see this file, the new html file, and `output/exercise2/` (two JSON histories, `relationships_clean.csv`, and two decision tables). If anything from `data/FOTM/` appears there, **stop and ask me** before committing.
+Before you commit, click on Render to create a new .html file of this exercise. Then, look at the **Changes** list in GitHub Desktop. You should see this file, the new html file, and `output/exercise3/` (`kinship-manipulation.json`, `relationships_clean.csv`, and `kinship_decisions.csv`). If anything from `data/FOTM/` appears there, **stop and ask me** before committing.
 
-Commit with a message like "Exercise 2: cleaning FOTM kinship and racial descriptions," then **Push origin**.
+Commit with a message like "Exercise 3: cleaning FOTM kinship labels," then **Push origin**.
 
 ::: {.callout-tip}
 ## Sources
