@@ -15,7 +15,7 @@ format:
     embed-resources: true
 ---
 
-::: {.callout-note}
+::: callout-note
 ## What is this exercise?
 
 This is the second half of Exercise 5. On Monday you explored *The American City* in Voyant, where every step was either **rule-based** (stopword lists, search patterns) or **counting** (frequencies, tf-idf, collocates), and Voyant didn't learn anything. Today you'll use the same 24 issues to build a **topic model**, your first example of **unsupervised machine learning**: without any set instructions of what to look for, the computer finds groups of words that tend to appear together, and you decide if they mean anything.
@@ -25,7 +25,7 @@ You'll also make in code the decisions Voyant made for you on Monday: what count
 As before, you're graded on your documented effort, not on mastery. Start in class (pairs or groups of 3 are welcome), finish at home, and commit your own work. Each question (Q1, Q2, ...) is a prompt to discuss with your pair or group. Jotting notes after each `>` is optional, but it will help you later in the semester.
 :::
 
-::: {.callout-tip}
+::: callout-tip
 ## How a topic model works, in one paragraph
 
 Imagine cutting all 24 issues into about 1,500 short pieces and handing them to someone who can't read English but is very good at counting. They'd notice that some words keep turning up in the same pieces: *concrete*, *asphalt*, and *pavement* together; *school*, *children*, and *health* together. A topic model does this with probabilities. It sorts the vocabulary into a number of word groups that you choose (the **topics**), and it describes each piece as a mix of those groups: say, 70% "paving" and 30% "costs." The model never learns what any word means. Naming the groups, and checking whether they make sense, is your job.
@@ -83,7 +83,7 @@ nrow(tokens)
 
 **Q1. Discuss with your pair or group:** How many words does R count in the corpus? Compare that with the total Voyant gave you in Part 1 of `E5-TextAnalysis.qmd`. If the numbers differ, why might two programs count the "same" words differently?
 
->
+> 
 
 ------------------------------------------------------------------------
 
@@ -108,7 +108,7 @@ chunk_info
 
 **Q2. Discuss with your pair or group:** How many documents do we have now? What do we gain from chunking, and what might we lose?
 
->
+> 
 
 ------------------------------------------------------------------------
 
@@ -136,7 +136,7 @@ words %>% count(word, sort = TRUE)
 
 **Q3. Discuss with your pair or group:** Look at the 50 most frequent words above. Which junk tokens from Voyant (Part 3 of `E5-TextAnalysis.qmd`) and which others you see now would you add to `my_stopwords`? Is there a reason you can think of to remove any real words from this corpus? Which ones and why?
 
->
+> 
 
 ------------------------------------------------------------------------
 
@@ -159,7 +159,7 @@ dtm
 
 **Q4. Discuss with your pair or group:** How many documents and how many different words (terms) are in the matrix? The output says most cells are empty (that's what **sparsity** means). Why would most words be missing from most 1,000-word chunks?
 
->
+> 
 
 ------------------------------------------------------------------------
 
@@ -222,6 +222,7 @@ topic_labels <- c(
 ```
 
 Add the labels to the topic plots and save the visualization in your `output/exercise5/` folder.
+
 ```{r}
 # Chunk 11
 top_terms %>%
@@ -236,6 +237,7 @@ top_terms %>%
 # save this viz to your output/exercise5/ folder
 ggsave("output/exercise5/ten-topics.png", width = 10, height = 10)
 ```
+
 ------------------------------------------------------------------------
 
 ## Part 7: Read the documents (gamma)
@@ -283,7 +285,7 @@ Some passages use the racial and ethnic language of 1915. As in Exercises 3 and 
 
 **Q6. Discuss with your pair or group:** Pick **two** topics and read their top three chunks. Did reading confirm your label from Part 6, or change it? Update `topic_labels` above if it changed.
 
->
+> 
 
 ------------------------------------------------------------------------
 
@@ -315,11 +317,13 @@ ggsave("output/exercise5/topics_over_time.png", width = 10, height = 5)
 ```
 
 **Q7. Discuss with your pair or group:** Pick one topic whose share rises or falls sharply. When does it change? Before you explain it with history, ask whether it's the **magazine** that changed or the **scans**. In Voyant (or with `show_chunk()`), look at the issues where the topic is high and where it's low. Hint: remember the watermark from Part 6 on Monday, and try the word `advertisers` in Trends.
-``` {r}
+
+```{r}
 #| message: false
 
 ```
->
+
+> 
 
 ### Going further (optional, at home)
 
@@ -349,7 +353,7 @@ words %>%
 
 **Q8 (optional). Discuss with your pair or group, or think it through at home:** Do the five words rise and fall together, or does one word drive the topic's trend? What does that tell you about how much to trust the topic's line in the chart above?
 
->
+> 
 
 ------------------------------------------------------------------------
 
@@ -376,7 +380,7 @@ tidy(lda_5, matrix = "beta") %>%
 
 **Q9. Discuss with your pair or group, or think it through at home:** What happens to your labeled topics when `k` is smaller or larger? Do some merge or split? Which `k` gives you topics you could actually **defend** by pointing to passages? This is a judgment call, not a correct answer.
 
->
+> 
 
 ------------------------------------------------------------------------
 
@@ -384,11 +388,11 @@ tidy(lda_5, matrix = "beta") %>%
 
 **Q10. Discuss with your pair or group, or think it through at home:** On Monday you sorted Voyant's steps into rule-based and counting, and decided Voyant didn't learn anything. Did the topic model *learn* something today? What did it learn, and what did it still need from you?
 
->
+> 
 
 **Q11. Discuss with your pair or group, or think it through at home:** Make a short decision log: at least **four** decisions made today (what counts as a document, which words were removed, dropping words used fewer than 25 times, the number of topics...). For each, one sentence on what it might hide or distort. Jotting this one down is worth it: you'll reuse this kind of log in your Method Selection & Revised Question assignment.
 
->
+> 
 
 ------------------------------------------------------------------------
 
@@ -416,13 +420,13 @@ ggsave("output/exercise5/topics_over_time.png", width = 10, height = 5)
 
 Render this file. Rendering fits the model again, so it takes a couple of minutes (longer if you kept the `k = 5` and `k = 20` models in Part 9). Then commit this file, the `.html`, and `output/exercise5/` with a message like "Exercise 5, part 2: topic modeling," and **Push origin**.
 
-::: {.callout-tip}
+::: callout-tip
 ## Sources
 
 - *The American City*, vols. 12–15 (New York: The Civic Press, 1915–1916), OCR text from digitized copies.
 - Megan R. Brett, "Topic Modeling: A Basic Introduction," *Journal of Digital Humanities* 2, no. 1 (2012).
 - Benjamin M. Schmidt, "Words Alone: Dismantling Topic Models in the Humanities," *Journal of Digital Humanities* 2, no. 1 (2012).
-- Julia Silge and David Robinson, *[Text Mining with R](https://www.tidytextmining.com/)*, chapter 6, "Topic Modeling."
+- Julia Silge and David Robinson, [*Text Mining with R*](https://www.tidytextmining.com/), chapter 6, "Topic Modeling."
 - Bettina Grün and Kurt Hornik, "topicmodels: An R Package for Fitting Topic Models," *Journal of Statistical Software* 40, no. 13 (2011).
 - Parts of this exercise adapt the text analysis and topic modeling worksheets from the original HIST 446 worksheets repository, created by Amanda Regan.
 :::
